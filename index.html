@@ -442,6 +442,25 @@
                     Selecciona al menos una vía para continuar.
                 </div>
             </fieldset>
+            
+<div class="pregunta">
+    <label for="otros_lugares">
+        3. ¿Qué otros lugares o vías de Bogotá consideras que presentan accidentes de tránsito con frecuencia y no aparecen en la lista anterior?
+    </label>
+
+    <p class="ayuda">
+        Escribe calles, avenidas, intersecciones o lugares de tu barrio que no aparezcan en la lista anterior.
+    </p>
+
+    <textarea
+        id="otros_lugares"
+        name="otros_lugares"
+        rows="3"
+        placeholder="Escribe aquí otros lugares o vías..."
+        required
+    ></textarea>
+</div>
+
 
             <div class="pregunta">
                 <label for="frecuencia">
@@ -537,7 +556,8 @@
             vias: viasSeleccionadas.join(", "),
             frecuencia: document.getElementById("frecuencia").value,
             causa: document.getElementById("causa").value,
-            comentario: document.getElementById("comentario").value
+            comentario: document.getElementById("comentario").value,
+            otros_lugares: document.getElementById("otros_lugares").value
         };
 
         botonEnviar.disabled = true;
