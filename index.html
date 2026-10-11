@@ -1,0 +1,589 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Encuesta vial ciudadana | Bogotá</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #f3f0ff, #e9e0ff);
+            margin: 0;
+            padding: 24px 14px;
+            color: #29243b;
+        }
+
+        .contenedor {
+            max-width: 760px;
+            margin: 0 auto;
+            padding: 30px;
+            background: white;
+            border-radius: 22px;
+            box-shadow: 0 8px 30px #50308018;
+        }
+
+        .encabezado {
+            text-align: center;
+            padding-bottom: 18px;
+        }
+
+        .icono {
+            font-size: 45px;
+        }
+
+        h1 {
+            color: #7041c4;
+            font-size: 30px;
+            margin: 12px 0;
+        }
+
+        .subtitulo {
+            color: #655b75;
+            line-height: 1.7;
+        }
+
+        .aviso {
+            background: #f8f5ff;
+            border-left: 4px solid #a585e8;
+            border-radius: 8px;
+            padding: 13px;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .pregunta {
+            margin-top: 25px;
+            padding: 0;
+            border: none;
+        }
+
+        .pregunta > label,
+        .pregunta legend {
+            display: block;
+            margin-bottom: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            line-height: 1.5;
+        }
+
+        input[type="text"],
+        select,
+        textarea {
+            display: block;
+            width: 100%;
+            padding: 13px;
+            border: 1px solid #d8cfea;
+            border-radius: 9px;
+            background: white;
+            font-size: 16px;
+            color: #29243b;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            outline: 2px solid #b99aff;
+            border-color: #7041c4;
+        }
+
+        .ayuda {
+            display: block;
+            color: #71677f;
+            font-size: 13px;
+            margin: 5px 0 12px;
+            line-height: 1.5;
+        }
+
+        .lista-vias {
+            background: #faf8ff;
+            border: 1px solid #e2d8f7;
+            border-radius: 12px;
+            padding: 14px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .opcion {
+            display: flex;
+            align-items: flex-start;
+            gap: 9px;
+            padding: 9px;
+            border-radius: 8px;
+            background: white;
+            border: 1px solid #eee8f8;
+            font-size: 14px;
+            line-height: 1.4;
+            cursor: pointer;
+        }
+
+        .opcion:hover {
+            background: #f0e8ff;
+        }
+
+        .opcion input {
+            width: 18px;
+            height: 18px;
+            flex-shrink: 0;
+            margin: 1px 0 0;
+            accent-color: #7041c4;
+            cursor: pointer;
+        }
+
+        button {
+            width: 100%;
+            padding: 16px;
+            margin-top: 25px;
+            background: #7041c4;
+            color: white;
+            font-size: 17px;
+            font-weight: bold;
+            border: none;
+            border-radius: 11px;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.2s;
+        }
+
+        button:hover {
+            background: #57309d;
+            transform: translateY(-1px);
+        }
+
+        .error {
+            display: none;
+            margin-top: 15px;
+            padding: 12px;
+            border-radius: 8px;
+            background: #fff0f0;
+            color: #9b2525;
+            line-height: 1.5;
+        }
+
+        #mensaje {
+            display: none;
+            margin-top: 25px;
+            padding: 30px 20px;
+            border: 2px solid #b99aff;
+            border-radius: 17px;
+            background: linear-gradient(135deg, #f2eaff, #e7dcff);
+            color: #57309d;
+            text-align: center;
+            font-size: 25px;
+            font-weight: bold;
+            line-height: 1.6;
+            box-shadow: 0 5px 18px #7041c425;
+        }
+
+        #mensaje .corazon {
+            display: block;
+            font-size: 38px;
+            margin-bottom: 10px;
+        }
+
+        .pie {
+            margin-top: 25px;
+            color: #766b86;
+            text-align: center;
+            font-size: 12px;
+            line-height: 1.6;
+        }
+
+        @media (max-width: 560px) {
+            .contenedor {
+                padding: 21px 16px;
+            }
+
+            h1 {
+                font-size: 25px;
+            }
+
+            .lista-vias {
+                grid-template-columns: 1fr;
+            }
+
+            #mensaje {
+                font-size: 22px;
+                padding: 24px 14px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <main class="contenedor">
+        <header class="encabezado">
+            <div class="icono">🚦</div>
+            <h1>Accidentes de tránsito en Bogotá</h1>
+            <p class="subtitulo">
+                Tu opinión cuenta. Ayúdanos a identificar los corredores
+                viales donde la ciudadanía percibe mayores riesgos de
+                accidentes y a pensar en una Bogotá más segura.
+            </p>
+        </header>
+
+        <p class="aviso">
+            <strong>Encuesta ciudadana:</strong> responde según tu
+            experiencia y percepción. Las respuestas no representan
+            necesariamente cifras oficiales de accidentalidad.
+        </p>
+
+        <form id="encuesta">
+            <div class="pregunta">
+                <label for="localidad">
+                    1. ¿En qué localidad de Bogotá vives?
+                </label>
+                <select id="localidad" name="localidad" required>
+                    <option value="">Selecciona una opción</option>
+                    <option>Usaquén</option>
+                    <option>Chapinero</option>
+                    <option>Santa Fe</option>
+                    <option>San Cristóbal</option>
+                    <option>Usme</option>
+                    <option>Tunjuelito</option>
+                    <option>Bosa</option>
+                    <option>Kennedy</option>
+                    <option>Fontibón</option>
+                    <option>Engativá</option>
+                    <option>Suba</option>
+                    <option>Barrios Unidos</option>
+                    <option>Teusaquillo</option>
+                    <option>Los Mártires</option>
+                    <option>Antonio Nariño</option>
+                    <option>Puente Aranda</option>
+                    <option>La Candelaria</option>
+                    <option>Rafael Uribe Uribe</option>
+                    <option>Ciudad Bolívar</option>
+                    <option>Sumapaz</option>
+                    <option>Otra / No vivo en Bogotá</option>
+                </select>
+            </div>
+
+            <fieldset class="pregunta" id="grupoVias">
+                <legend>
+                    2. ¿En qué calles, avenidas o corredores crees
+                    que ocurren más accidentes de tránsito?
+                </legend>
+                <span class="ayuda">
+                    Puedes marcar varias opciones. Selecciona todos
+                    los lugares que consideres necesarios.
+                </span>
+
+                <div class="lista-vias">
+                    <label class="opcion">
+                        <input type="checkbox" name="vias"
+                               value="Av. Boyacá">
+                        <span>Av. Boyacá</span>
+                    </label>
+
+                    <label class="opcion">
+                        <input type="checkbox" name="vias"
+                               value="Autopista Norte">
+                        <span>Autopista Norte</span>
+                    </label>
+
+                    <label class="opcion">
+                        <input type="checkbox" name="vias"
+                               value="Av. Ciudad de Cali">
+                        <span>Av. Ciudad de Cali</span>
+                    </label>
+
+                    <label class="opcion">
+                        <input type="checkbox" name="vias"
+                               value="NQS">
+                        <span>NQS</span>
+                    </label>
+
+                    <label class="opcion">
+                        <input type="checkbox" name="vias"
+                               value="Autopista Sur">
+                        <span>Autopista Sur</span>
+                    </label>
+
+                    <label class="opcion">
+                        <input type="checkbox" name="vias"
+                               value="Calle 13 / Av. Centenario">
+                        <span>Calle 13 / Av. Centenario</span>
+                    </label>
+
+                    <label class="opcion">
+                        <input type="checkbox" name="vias"
+                               value="Calle 80">
+                        <span>Calle 80</span>
+                    </label>
+
+                    <label class="opcion">
+                        <input type="checkbox" name="vias"
+                               value="Av. Carrera 68">
+                        <span>Av. Carrera 68</span>
+                    </label>
+
+                    <label class="opcion">
+                        <input type="checkbox" name="vias"
+                               value="Av. Suba">
+                        <span>Av. Suba</span>
+                    </label>
+
+                    <label class="opcion">
+                        <input type="checkbox" name="vias"
+                               value="Calle 26">
+                        <span>Calle 26</span>
+                    </label>
+
+                    <label class="opcion">
+                        <input type="checkbox" name="vias"
+                               value="Av. Las Américas">
+                        <span>Av. Las Américas</span>
+                    </label>
+
+                    <label class="opcion">
+                        <input type="checkbox" name="vias"
+                               value="Av. Primero de Mayo">
+                        <span>Av. Primero de Mayo</span>
+                    </label>
+
+                    <label class="opcion">
+                        <input type="checkbox" name="vias"
+                               value="Av. Caracas">
+                        <span>Av. Caracas</span>
+                    </label>
+
+                    <label class="opcion">
+                        <input type="checkbox" name="vias"
+                               value="Carrera 7">
+                        <span>Carrera 7</span>
+                    </label>
+
+                    <label class="opcion">
+                        <input type="checkbox" name="vias"
+                               value="Av. Guayacanes">
+                        <span>Av. Guayacanes</span>
+                    </label>
+
+                    <label class="opcion">
+                        <input type="checkbox" name="vias"
+                               value="Av. Villavicencio">
+                        <span>Av. Villavicencio</span>
+                    </label>
+
+                    <label class="opcion">
+                        <input type="checkbox" name="vias"
+                               value="Av. Mutis / Calle 63">
+                        <span>Av. Mutis / Calle 63</span>
+                    </label>
+
+                    <label class="opcion">
+                        <input type="checkbox" name="vias"
+                               value="Av. Rincón">
+                        <span>Av. Rincón</span>
+                    </label>
+
+                    <label class="opcion">
+                        <input type="checkbox" name="vias"
+                               value="Av. Laureano Gómez / Cra. 9">
+                        <span>Av. Laureano Gómez / Cra. 9</span>
+                    </label>
+
+                    <label class="opcion">
+                        <input type="checkbox" name="vias"
+                               value="Carrera 10">
+                        <span>Carrera 10</span>
+                    </label>
+
+                    <label class="opcion">
+                        <input type="checkbox" name="vias"
+                               value="Carrera 50">
+                        <span>Carrera 50</span>
+                    </label>
+
+                    <label class="opcion">
+                        <input type="checkbox" name="vias"
+                               value="Av. Ferrocarril del Sur">
+                        <span>Av. Ferrocarril del Sur</span>
+                    </label>
+
+                    <label class="opcion">
+                        <input type="checkbox" name="vias"
+                               value="Av. Circunvalar">
+                        <span>Av. Circunvalar</span>
+                    </label>
+
+                    <label class="opcion">
+                        <input type="checkbox" name="vias"
+                               value="Av. Tunjuelito">
+                        <span>Av. Tunjuelito</span>
+                    </label>
+
+                    <label class="opcion">
+                        <input type="checkbox" name="vias"
+                               value="Av. Agoberto Mejía / Cra. 80">
+                        <span>Av. Agoberto Mejía / Cra. 80</span>
+                    </label>
+
+                    <label class="opcion">
+                        <input type="checkbox" name="vias"
+                               value="Av. José Celestino Mutis – occidente">
+                        <span>Av. José Celestino Mutis – occidente</span>
+                    </label>
+
+                    <label class="opcion">
+                        <input type="checkbox" name="vias"
+                               value="Av. Primero de Mayo – oriente">
+                        <span>Av. Primero de Mayo – oriente</span>
+                    </label>
+                </div>
+
+                <div id="errorVias" class="error" role="alert">
+                    Selecciona al menos una vía para continuar.
+                </div>
+            </fieldset>
+
+            <div class="pregunta">
+                <label for="frecuencia">
+                    3. ¿Con qué frecuencia observas accidentes de tránsito?
+                </label>
+                <select id="frecuencia" name="frecuencia" required>
+                    <option value="">Selecciona una opción</option>
+                    <option>Muy frecuentemente</option>
+                    <option>Frecuentemente</option>
+                    <option>Ocasionalmente</option>
+                    <option>Casi nunca</option>
+                    <option>Nunca</option>
+                </select>
+            </div>
+
+            <div class="pregunta">
+                <label for="causa">
+                    4. ¿Cuál crees que es la principal causa de los accidentes?
+                </label>
+                <select id="causa" name="causa" required>
+                    <option value="">Selecciona una opción</option>
+                    <option>Exceso de velocidad</option>
+                    <option>Distracción al conducir</option>
+                    <option>No respetar las señales de tránsito</option>
+                    <option>Mal estado de las vías</option>
+                    <option>Imprudencia de peatones</option>
+                    <option>Problemas mecánicos</option>
+                    <option>Otra causa</option>
+                    <option>No estoy seguro/a</option>
+                </select>
+            </div>
+
+            <div class="pregunta">
+                <label for="comentario">
+                    5. ¿Qué medida ayudaría a prevenir accidentes?
+                </label>
+                <span class="ayuda">Esta pregunta es opcional.</span>
+                <textarea id="comentario" name="comentario" rows="4"
+                    placeholder="Escribe tu opinión o propuesta..."></textarea>
+            </div>
+
+            <button type="submit">Enviar mis respuestas 💜</button>
+        </form>
+
+        <section id="mensaje" role="status" aria-live="polite">
+            <span class="corazon">💜 🚦 💜</span>
+            ¡MUCHAS GRACIAS POR PARTICIPAR!
+            <br>
+            <span style="font-size: 18px; font-weight: normal;">
+                Tu opinión es muy importante para construir una Bogotá
+                más segura para todos.
+            </span>
+        </section>
+
+        <footer class="pie">
+            Encuesta de percepción ciudadana sobre seguridad vial
+            en Bogotá, Colombia.
+        </footer>
+    </main>
+
+    
+<script>
+    const URL_GOOGLE_SHEETS = "https://script.google.com/macros/s/AKfycbwO9oB4gP7OdQhd3OjTGklogJPFfPBpPGGi2__TENv0us7uaacXDUAXjOUwRsaRxh37/exec";
+
+    const formulario = document.getElementById("encuesta");
+    const casillasVias = document.querySelectorAll('input[name="vias"]');
+    const errorVias = document.getElementById("errorVias");
+    const mensaje = document.getElementById("mensaje");
+    const botonEnviar = formulario.querySelector('button[type="submit"]');
+
+    formulario.addEventListener("submit", async function(event) {
+        event.preventDefault();
+
+        const viasSeleccionadas = Array.from(
+            document.querySelectorAll('input[name="vias"]:checked')
+        ).map(function(casilla) {
+            return casilla.value;
+        });
+
+        if (viasSeleccionadas.length === 0) {
+            errorVias.style.display = "block";
+            document.getElementById("grupoVias").scrollIntoView({
+                behavior: "smooth",
+                block: "center"
+            });
+            return;
+        }
+
+        errorVias.style.display = "none";
+
+        const datos = {
+            localidad: document.getElementById("localidad").value,
+            vias: viasSeleccionadas.join(", "),
+            frecuencia: document.getElementById("frecuencia").value,
+            causa: document.getElementById("causa").value,
+            comentario: document.getElementById("comentario").value
+        };
+
+        botonEnviar.disabled = true;
+        botonEnviar.textContent = "Enviando respuestas...";
+
+        try {
+            await fetch(URL_GOOGLE_SHEETS, {
+                method: "POST",
+                mode: "no-cors",
+                headers: {
+                    "Content-Type": "text/plain;charset=utf-8"
+                },
+                body: JSON.stringify(datos)
+            });
+
+            formulario.style.display = "none";
+            mensaje.style.display = "block";
+            mensaje.scrollIntoView({
+                behavior: "smooth",
+                block: "center"
+            });
+        } catch (error) {
+            botonEnviar.disabled = false;
+            botonEnviar.textContent = "Enviar mis respuestas 💜";
+
+            alert(
+                "No pudimos enviar las respuestas. " +
+                "Revisa tu conexión a internet e inténtalo nuevamente."
+            );
+
+            console.error("Error al enviar la encuesta:", error);
+        }
+    });
+
+    casillasVias.forEach(function(casilla) {
+        casilla.addEventListener("change", function() {
+            const algunaMarcada = document.querySelector(
+                'input[name="vias"]:checked'
+            );
+
+            if (algunaMarcada) {
+                errorVias.style.display = "none";
+            }
+        });
+    });
+</script>
+
+</body>
+</html>
