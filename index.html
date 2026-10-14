@@ -73,19 +73,30 @@
         }
         
 /* Mejorar la apariencia de las opciones de respuesta */
-.pregunta label,
-.pregunta fieldset label {
+
+/* Estilo de las preguntas y opciones */
+.pregunta > label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 10px;
+    line-height: 1.5;
+}
+
+.pregunta fieldset label,
+.pregunta label:has(input[type="checkbox"]),
+.pregunta label:has(input[type="radio"]) {
     font-weight: normal;
     display: block;
     margin: 8px 0;
     line-height: 1.5;
 }
 
-/* Mantener los títulos de las preguntas destacados */
+/* Títulos de preguntas con casillas */
 .pregunta legend {
     font-weight: bold;
     margin-bottom: 10px;
 }
+
 
 
         input[type="text"],
