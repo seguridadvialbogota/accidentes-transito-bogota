@@ -495,12 +495,81 @@
 
             <div class="pregunta">
                 <label for="comentario">
-                    6. ¿Qué medida ayudaría a prevenir accidentes?
+                    6. ¿Qué medida ayudaría a prevenir accidentes de transito?
                 </label>
                 <span class="ayuda">Tu respuesta es obligatoria.</span>
                 <textarea id="comentario" name="comentario" rows="4" required
                     placeholder="Escribe tu opinión o propuesta..."></textarea>
             </div>
+            
+            <!-- Pregunta 7: Horario de los accidentes -->
+            <div class="pregunta">
+                <label for="horario">
+                    7. ¿En qué horario considera que se presentan con mayor frecuencia los accidentes de tránsito en Bogotá?
+                </label>
+                <span class="ayuda">Selecciona una sola opción.</span>
+                <select id="horario" name="horario" required>
+                    <option value="">Selecciona una opción</option>
+                    <option value="Madrugada">Madrugada (12:00 a. m. - 5:59 a. m.)</option>
+                    <option value="Mañana">Mañana (6:00 a. m. - 11:59 a. m.)</option>
+                    <option value="Tarde">Tarde (12:00 p. m. - 5:59 p. m.)</option>
+                    <option value="Noche">Noche (6:00 p. m. - 11:59 p. m.)</option>
+                    <option value="No sabe">No sabe / No está seguro(a)</option>
+                </select>
+            </div>
+
+            <!-- Pregunta 8: Actores viales -->
+            <fieldset class="pregunta" id="grupoActores">
+                <legend>
+                    8. ¿Qué actores viales considera que están involucrados con mayor frecuencia en los accidentes de tránsito en Bogotá?
+                </legend>
+                <span class="ayuda">Puedes seleccionar varias opciones.</span>
+                <label><input type="checkbox" name="actores" value="Peatones"> Peatones</label>
+                <label><input type="checkbox" name="actores" value="Ciclistas"> Ciclistas</label>
+                <label><input type="checkbox" name="actores" value="Motociclistas"> Motociclistas</label>
+                <label><input type="checkbox" name="actores" value="Automóviles particulares"> Conductores de automóviles particulares</label>
+                <label><input type="checkbox" name="actores" value="Taxis"> Conductores de taxis</label>
+                <label><input type="checkbox" name="actores" value="Transporte público"> Conductores de buses y busetas</label>
+                <label><input type="checkbox" name="actores" value="Vehículos de carga"> Conductores de vehículos de carga</label>
+                <label><input type="checkbox" name="actores" value="Otros vehículos"> Usuarios de otros vehículos</label>
+                <label><input type="checkbox" name="actores" value="No sabe"> No sabe / No está seguro(a)</label>
+            </fieldset>
+
+            <!-- Pregunta 9: Víctimas -->
+            <fieldset class="pregunta" id="grupoVictimas">
+                <legend>
+                    9. ¿Qué grupos de personas considera que son las principales víctimas de los accidentes de tránsito en Bogotá?
+                </legend>
+                <span class="ayuda">Puedes seleccionar varias opciones.</span>
+                <label><input type="checkbox" name="victimas" value="Peatones"> Peatones</label>
+                <label><input type="checkbox" name="victimas" value="Ciclistas"> Ciclistas</label>
+                <label><input type="checkbox" name="victimas" value="Motociclistas"> Motociclistas</label>
+                <label><input type="checkbox" name="victimas" value="Pasajeros del transporte público"> Pasajeros del transporte público</label>
+                <label><input type="checkbox" name="victimas" value="Conductores y pasajeros de vehículos particulares"> Conductores y pasajeros de vehículos particulares</label>
+                <label><input type="checkbox" name="victimas" value="Niños, niñas y adolescentes"> Niños, niñas y adolescentes</label>
+                <label><input type="checkbox" name="victimas" value="Personas adultas mayores"> Personas adultas mayores</label>
+                <label><input type="checkbox" name="victimas" value="No sabe"> No sabe / No está seguro(a)</label>
+            </fieldset>
+
+            <!-- Pregunta 10: Condiciones peligrosas -->
+            <fieldset class="pregunta" id="grupoCondiciones">
+                <legend>
+                    10. ¿Qué condiciones de las vías considera que representan un mayor riesgo para la seguridad vial en Bogotá?
+                </legend>
+                <span class="ayuda">Puedes seleccionar varias opciones.</span>
+                <label><input type="checkbox" name="condiciones" value="Huecos y deterioro del pavimento"> Huecos y deterioro del pavimento</label>
+                <label><input type="checkbox" name="condiciones" value="Señalización deficiente"> Señalización vial deficiente o inexistente</label>
+                <label><input type="checkbox" name="condiciones" value="Semáforos dañados"> Semáforos dañados o fuera de servicio</label>
+                <label><input type="checkbox" name="condiciones" value="Falta de iluminación"> Falta de iluminación en las vías</label>
+                <label><input type="checkbox" name="condiciones" value="Demarcación desgastada"> Demarcación vial poco visible o desgastada</label>
+                <label><input type="checkbox" name="condiciones" value="Falta de cruces peatonales seguros"> Ausencia de pasos peatonales o cruces seguros</label>
+                <label><input type="checkbox" name="condiciones" value="Andenes en mal estado"> Andenes en mal estado u obstáculos para peatones</label>
+                <label><input type="checkbox" name="condiciones" value="Falta de ciclorrutas"> Falta de ciclorrutas o infraestructura segura para ciclistas</label>
+                <label><input type="checkbox" name="condiciones" value="Vías resbaladizas o inundadas"> Vías resbaladizas o afectadas por inundaciones</label>
+                <label><input type="checkbox" name="condiciones" value="Intersecciones peligrosas"> Intersecciones peligrosas o de poca visibilidad</label>
+                <label><input type="checkbox" name="condiciones" value="No sabe"> No sabe / No está seguro(a)</label>
+            </fieldset>
+
 
             <button type="submit">Enviar mis respuestas 💜</button>
         </form>
@@ -551,14 +620,30 @@
 
         errorVias.style.display = "none";
 
+       
         const datos = {
             localidad: document.getElementById("localidad").value,
             vias: viasSeleccionadas.join(", "),
             frecuencia: document.getElementById("frecuencia").value,
             causa: document.getElementById("causa").value,
             comentario: document.getElementById("comentario").value,
-            otros_lugares: document.getElementById("otros_lugares").value
+            otros_lugares: document.getElementById("otros_lugares").value,
+
+            horario: document.getElementById("horario").value,
+
+            actores: Array.from(
+                document.querySelectorAll('input[name="actores"]:checked')
+            ).map(casilla => casilla.value).join(", "),
+
+            victimas: Array.from(
+                document.querySelectorAll('input[name="victimas"]:checked')
+            ).map(casilla => casilla.value).join(", "),
+
+            condiciones: Array.from(
+                document.querySelectorAll('input[name="condiciones"]:checked')
+            ).map(casilla => casilla.value).join(", ")
         };
+
 
         botonEnviar.disabled = true;
         botonEnviar.textContent = "Enviando respuestas...";
